@@ -1,0 +1,4 @@
+
+module.exports = {
+    secret: " b'b\xe7d@P\x93(\xf3Z\x8e\xa89\x14\r)\xba\xcc\x08\xd9<' "
+}

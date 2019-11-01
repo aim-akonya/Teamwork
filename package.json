@@ -4,7 +4,7 @@
   "description": "internal social network",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/*.js --exit",
     "start": "node index",
     "dev": "nodemon index"
   },
@@ -19,39 +19,43 @@
   },
   "homepage": "https://github.com/aim-akonya/Teamwork#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "cloudinary": "^1.16.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4"
   },
   "eslintConfig": {
-    "extends":"airbnb-base",
-    "env":{
-      "es6":true,
-      "browser":true
+    "extends": "airbnb-base",
+    "env": {
+      "es6": true,
+      "browser": true
     },
-    "rules":{
-      "brace-style":[
+    "rules": {
+      "brace-style": [
         "error",
         "stroustrup"
       ],
-      "comma-dangle":[
+      "comma-dangle": [
         "error",
         "never"
       ],
-      "no-unused-vars":[
+      "no-unused-vars": [
         "warn"
       ],
-      "no-var":[
+      "no-var": [
         "off"
       ],
-      "one-var":[
+      "one-var": [
         "off"
       ]
     }
   }
-
 }
