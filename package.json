@@ -1,0 +1,57 @@
+{
+  "name": "teamwork",
+  "version": "1.0.0",
+  "description": "internal social network",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aim-akonya/Teamwork.git"
+  },
+  "author": "aim-akonya",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/aim-akonya/Teamwork/issues"
+  },
+  "homepage": "https://github.com/aim-akonya/Teamwork#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.4"
+  },
+  "eslintConfig": {
+    "extends":"airbnb-base",
+    "env":{
+      "es6":true,
+      "browser":true
+    },
+    "rules":{
+      "brace-style":[
+        "error",
+        "stroustrup"
+      ],
+      "comma-dangle":[
+        "error",
+        "never"
+      ],
+      "no-unused-vars":[
+        "warn"
+      ],
+      "no-var":[
+        "off"
+      ],
+      "one-var":[
+        "off"
+      ]
+    }
+  }
+
+}
