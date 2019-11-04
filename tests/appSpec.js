@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
 
-//configuring chai 
+//configuring chai
 chai.use(chaiHttp);
 chai.should();
 
@@ -15,12 +15,9 @@ describe('employees', ()=>{
                 if(err){
                     done()
                 }else{
-                    //res.should.have.status(201);
-                    //res.body.should.be.a('object');
-                    //res.body.data.should.be.a('object');
-                    //res.body.status.should.be.a('string');
-                    //res.body.data.token.should.be.a('string');
-                    //res.body.data.userId.should.be.a('int');
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.status.should.be.a('string');
                 }
                 done();
             })
