@@ -42,7 +42,6 @@ const createUser = (req, res, next)=>{
             [firstname, lastname, gender, email, hashed_password, jobrole, department, address, is_admin],
             (error, results)=>{
               if(error){
-                console.log(error)
                 return res.status(400).json({status:"error", message:error.detail})
               }
               res.status(201).json({
@@ -55,34 +54,45 @@ const createUser = (req, res, next)=>{
               })
             }
         )
-
-
       })
+}
 
+const signin=(req, res, next)=>{
+  if (!req.body){
+    return res.status(400).json({status:"error"})
+  }
 
+  const {email, password} = req.body;
 
-/*
-    pool.query(
-        'INSERT INTO employees(id, name) VALUES($1,$2)',[id, name],
-        (error, results)=>{
-            if(error){
-                throw error
-            }
-            res.status(201).json({
-                status:'success',
-                data:{
-                    message:"user account successfully created",
-                    token: jwt.sign({id: id, name:name}, config.secret),
-                    userId: id
-                }
-            })
-        }
-        )
-*/
+  if(email === undefined){
+    return res.status(400).json({status:"error", message:"email is required"})
+  }
+
+  pool.query("SELECT id, password, email FROM employees WHERE email=$1",[email],
+  (error, results)=>{
+    if(error){
+      return res.status(400).json({status:"error", message:error.detail})
+    }
+    console.log(results.rows[0]);
+    bcrypt.compare(password, results.rows[0].password, (err, response)=>{
+      if(response){
+        res.status(200).json({
+          status:"success",
+          data:{
+            token:jwt.sign({email:email, id:results.rows[0].id}, config.secret),
+            userId:results.rows[0].id,
+            email:results.rows[0].email
+          }
+        })
+      }
+    })
+  }
+)
 }
 
 
 
 module.exports = {
-    createUser
+    createUser,
+    signin
 }

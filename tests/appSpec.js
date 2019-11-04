@@ -6,7 +6,7 @@ const app = require('../app');
 chai.use(chaiHttp);
 chai.should();
 
-describe('employees', ()=>{
+describe('employees accounts', ()=>{
 
     it('should allow admin to create users', (done)=>{
         chai.request(app)
@@ -22,4 +22,10 @@ describe('employees', ()=>{
                 done();
             })
     })
+})
+
+describe('sign in', ()=>{
+  it('should allow admin/employees to signin', (done)=>{
+    
+  })
 })

@@ -8,4 +8,7 @@ const router = express.Router();
 //admin can create a user
 router.post('/create-user', conn.createUser);
 
+//signin
+router.post('/signin', conn.signin);
+
 module.exports = router
