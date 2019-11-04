@@ -10,5 +10,8 @@ app.use(headers);
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+//admin can create user 
+app.use('/api/v1/auth', require('./routes/api/employees'))
+
 
 module.exports = app;
