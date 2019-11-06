@@ -14,10 +14,10 @@ const pool = new Pool({
 
 //admin can create user
 const createUser = (req, res, next)=>{
-
     if (!req.body){
       return res.status(400).json({status:"error"})
     }
+
 
     const {firstname, lastname,gender,email, password, jobrole, department, address, is_admin}=req.body
 
@@ -42,7 +42,9 @@ const createUser = (req, res, next)=>{
             [firstname, lastname, gender, email, hashed_password, jobrole, department, address, is_admin],
             (error, results)=>{
               if(error){
-                return res.status(400).json({status:"error", message:error.detail})
+                console.log(error)
+                //return res.status(400).json({status:"error", message:error.detail})
+                throw error;
               }
               res.status(201).json({
                 status:"success",
