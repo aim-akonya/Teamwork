@@ -19,7 +19,7 @@ const createUser = (req, res, next)=>{
     }
 
 
-    const {firstname, lastname,gender,email, password, jobrole, department, address, is_admin}=req.body
+    const {firstname, lastname, gender, email, password, jobrole, department, address, is_admin}=req.body
 
     if(email===undefined){
       return res.status(400).json({status:"error", message:"email is required"})
@@ -42,9 +42,8 @@ const createUser = (req, res, next)=>{
             [firstname, lastname, gender, email, hashed_password, jobrole, department, address, is_admin],
             (error, results)=>{
               if(error){
-                console.log(error)
-                //return res.status(400).json({status:"error", message:error.detail})
-                throw error;
+                //console.log(error)
+                return res.status(400).json({status:"error", message:error.detail})
               }
               res.status(201).json({
                 status:"success",
