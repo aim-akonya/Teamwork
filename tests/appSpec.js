@@ -1,10 +1,18 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
+const expect = require ('chai').expect;
 
 //configuring chai
 chai.use(chaiHttp);
 chai.should();
+
+
+describe('test', ()=>{
+  it('should return a string', ()=>{
+    expect('Teamwork application').to.equal('Teamwork application');
+  });
+});
 
 describe('employees accounts', ()=>{
 
@@ -25,7 +33,5 @@ describe('employees accounts', ()=>{
 })
 
 describe('sign in', ()=>{
-  it('should allow admin/employees to signin', (done)=>{
-    
-  })
+
 })

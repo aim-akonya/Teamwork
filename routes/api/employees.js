@@ -1,6 +1,6 @@
 const express = require('express');
 const app = require('../../app');
-const conn = require('../../controllers/query.js');
+const conn = require('../../controllers/employees.js');
 
 
 const router = express.Router();
