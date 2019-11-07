@@ -4,7 +4,8 @@ module.exports = {
 
     db_username:'aim',
     db_password:'swahili1010',
-    db_host: 'localhost',
+    db_host: '197.232.56.28',
     db: 'teamwork',
     db_port:'5432'
 }
+//197.232.56.28

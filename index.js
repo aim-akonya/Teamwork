@@ -18,7 +18,7 @@ app.set('port', port);
 
 const errorHandler = error =>{
     if(error.syscall !== 'listen'){
-        throw error; 
+        throw error;
     }
     const address = server.address();
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port '+ port;
@@ -33,7 +33,7 @@ const errorHandler = error =>{
             process.exit(1);
             break
         default:
-            throw error; 
+            throw error;
     }
 };
 
