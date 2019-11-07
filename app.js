@@ -21,8 +21,8 @@ app.use(express.json({limit: '50mb'}))
 app.use(express.urlencoded({ extended: false }))
 
 //entry point
-app.get('/', (req, res)=>{
-  res.send('Teamwork application')
+app.get('/api/v1', (req, res)=>{
+  res.status(200).json({status:'success', application:'Teamwork Application'})
 })
 
 //admin can create user

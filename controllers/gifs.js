@@ -61,7 +61,7 @@ const createGif = (req, res, next)=>{
                     status:'success',
                     data:{
                       gifId: data.rows[0].id,
-                      message: 'GIF successfully posted',
+                      message: 'GIF image successfully posted',
                       createdOn: data.rows[0].created_at,
                       title: title,
                       imageUrl: file.url

@@ -12,6 +12,7 @@ const pool = new Pool({
     port: config.db_port,
 });
 
+
 //admin can create user
 const createUser = (req, res, next)=>{
     if (!req.body){
@@ -45,14 +46,22 @@ const createUser = (req, res, next)=>{
                 //console.log(error)
                 return res.status(400).json({status:"error", message:error.detail})
               }
-              res.status(201).json({
-                status:"success",
-                data:{
-                  message:"user account successfully created",
-                  token: jwt.sign({email:email, is_admin:is_admin}, config.secret),
-                  userId: email
+              //get the new user's id
+              pool.query('SELECT id, email FROM employees WHERE email=$1',[email],
+              (err, data)=>{
+                if(err){
+                  return res.status(400).json({status:"error", message:"user not created"})
                 }
+                res.status(201).json({
+                  status:"success",
+                  data:{
+                    message:"user account successfully created",
+                    token: jwt.sign({email:email, id:data.rows[0].id, is_admin:is_admin}, config.secret),
+                    userId: data.rows[0].id
+                  }
+                })
               })
+
             }
         )
       })
@@ -69,7 +78,7 @@ const signin=(req, res, next)=>{
     return res.status(400).json({status:"error", message:"email is required"})
   }
 
-  pool.query("SELECT id, password, email FROM employees WHERE email=$1",[email],
+  pool.query("SELECT id, password, email, is_admin FROM employees WHERE email=$1",[email],
   (error, results)=>{
     if(error){
       return res.status(400).json({status:"error", message:error.detail})
@@ -80,9 +89,9 @@ const signin=(req, res, next)=>{
         res.status(200).json({
           status:"success",
           data:{
-            token:jwt.sign({email:email, id:results.rows[0].id}, config.secret),
+            token:jwt.sign({email:email, id:results.rows[0].id, is_admin:results.rows[0].is_admin}, config.secret),
             userId:results.rows[0].id,
-            email:results.rows[0].email
+            email:results.email
           }
         })
       }
@@ -94,6 +103,7 @@ const signin=(req, res, next)=>{
 
 
 module.exports = {
+    pool,
     createUser,
     signin
 }
