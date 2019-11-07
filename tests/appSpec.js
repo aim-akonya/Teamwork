@@ -13,7 +13,7 @@ const config = require('../config');
 chai.use(chaiHttp);
 chai.should();
 
-const userToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6NDMsImlzX2FkbWluIjp0cnVlLCJpYXQiOjE1NzMxMjExNTB9.Yl6HveP2hBuL6wI8cpeQdocfQSrFctTbum3QP6lqGMc'
+const userToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6MSwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTU3MzE1NDI2Mn0.X26CpLM7mp9hclz1YS1yfZ62l70PL7ejocI45brhZLU"
 
 describe('GET /', ()=>{
   it('responds with json', done=>{
@@ -37,6 +37,7 @@ describe('POST /auth/create-user', ()=>{
     pool.query('DELETE FROM employees WHERE email=$1',[user.testUser1.email],
       (err, val)=>{
         if (err){
+          console.error(err)
           done(err)
         }
       })
