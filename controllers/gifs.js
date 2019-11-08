@@ -17,7 +17,6 @@ const pool = new Pool({
 });
 
 const createGif = (req, res, next)=>{
-
       if (!req.body){
         return res.status(400).json({status:"error"})
       }

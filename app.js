@@ -34,5 +34,8 @@ app.use(checkToken);
 //gifs
 app.use('/api/v1/gifs', require('./routes/api/gif'))
 
+//articles
+app.use('/api/v1/articles', require('./routes/api/articles'))
+
 
 module.exports = app;

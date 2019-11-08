@@ -30,3 +30,9 @@ exports.image={
   image:imageVal.encodedImage,
   title:'Sample image'
 }
+
+//sample article
+exports.testArticle = {
+  title: 'The fall of the race',
+  article:'some interesting article'
+}
