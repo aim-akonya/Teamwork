@@ -83,7 +83,7 @@ describe('POST /auth/signin', ()=>{
 
 //employees can post gifs
 describe ("POST /gifs", ()=>{
-  it('should respond with status code 201 and return a json data containing token', done=>{
+  it('should respond with status code 201 and return  json data', done=>{
     //setTimeout(15000)
     request(app)
       .post('/api/v1/gifs')
@@ -103,4 +103,27 @@ describe ("POST /gifs", ()=>{
       })
   }).timeout(15000)
 
+})
+
+//employee can create an article
+describe ('POST /articles', ()=>{
+  it('should respond with status 201 and return json data', (done)=>{
+    //create an article
+    request(app)
+      .post('/api/v1/articles')
+      .set('authorization', userToken)
+      .send(user.testArticle)
+      .expect('Content-Type', /json/)
+      .end((err, res)=>{
+        if (err) return done(err)
+        expect(res.status).to.equal(201);
+        expect(res.body.status).to.equal('success');
+        expect(res.body.data).to.be.a('object');
+        expect(res.body.data.message).to.equal('Article successfully posted');
+        expect(res.body.data.articleId).to.be.a('number');
+        expect(res.body.data.createdOn).to.be.a('string');
+        expect(res.body.data.title).to.be.a('string');
+        done();
+      })
+  })
 })
