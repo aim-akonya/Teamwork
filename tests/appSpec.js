@@ -146,4 +146,6 @@ describe('PATCH /articles/:articleId', ()=>{
         done();
       })
   })
-}).timeout(15000)
+})
+
+//employee can delete an article
