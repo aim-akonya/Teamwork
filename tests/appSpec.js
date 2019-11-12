@@ -126,4 +126,24 @@ describe ('POST /articles', ()=>{
         done();
       })
   })
-})
+}).timeout(15000)
+
+//employee can edit an article
+describe('PATCH /articles/:articleId', ()=>{
+  it('should respond with a status code of 200 and edit the article with the new data', (done)=>{
+    request(app)
+      .patch(`/api/v1/articles/${26}`)
+      .set('authorization', userToken)
+      .send({title: 'The fall of the race', article:"It indeed is an interesting article"})
+      .expect('Content-Type', /json/)
+      .end( (err, res)=>{
+        if (err) done(err)
+        expect(res.status).to.equal(200);
+        expect(res.body.data).to.be.a('object');
+        expect(res.body.data.message).to.equal('Article successfully updated');
+        expect(res.body.data.title).to.be.a('string');
+        expect(res.body.data.article).to.be.a('string');
+        done();
+      })
+  })
+}).timeout(15000)

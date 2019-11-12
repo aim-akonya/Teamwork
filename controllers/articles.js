@@ -31,7 +31,6 @@ const createArticle = (req, res, next)=>{
       if(error){
         return res.status(400).json({status:"error", message:error.detail})
       }
-      console.log(response);
       pool.query('SELECT id, created_at FROM articles WHERE created_at=($1)',[createdOn],
       (err, data)=>{
         if(err){
@@ -52,7 +51,45 @@ const createArticle = (req, res, next)=>{
     })
 }
 
+const editArticle = (req,res, next)=>{
+  console.log('reached')
+  if (!req.body){
+    return res.status(400).json({status:"error"})
+  }
+  console.log(req.params)
+  if(!req.params.articleId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const id = req.params.id
+  const {title, article} = req.body
+
+  if(!title || !article){
+    return res.status(400).json({status:"error", message:"both article and title should be provided"})
+  }
+
+  pool.query('UPDATE articles SET title=$1, article=$2 WHERE id=$3', [title, article, id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:error.detail})
+      }
+      res.status(200).json({
+        status:"success",
+        data:{
+          message:"Article successfully updated",
+          title:title,
+          article:article
+        }
+      })
+    }
+)
+
+
+}
+
+
+
 
 module.exports = {
-  createArticle
+  createArticle,
+  editArticle
 }
