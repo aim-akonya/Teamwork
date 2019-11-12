@@ -149,6 +149,6 @@ describe('PATCH /articles/:articleId', ()=>{
 })
 
 //employee can delete an article
-decribe('DELETE /articles/:articleId', ()=>{
+describe('DELETE /articles/:articleId', ()=>{
 
 })
