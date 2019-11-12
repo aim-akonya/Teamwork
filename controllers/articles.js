@@ -74,7 +74,7 @@ const editArticle = (req,res, next)=>{
       const owner = response.rows[0].owner
       const userId = req.decoded.id
       if(owner != userId){
-        return res.status(403).json({status:error, message:'Unauthorised'})
+        return res.status(403).json({status:"error", message:'Unauthorised'})
       }
     }
   )
@@ -94,6 +94,8 @@ const editArticle = (req,res, next)=>{
       })
     }
 )
+
+
 
 
 }
