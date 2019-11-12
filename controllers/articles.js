@@ -31,7 +31,6 @@ const createArticle = (req, res, next)=>{
       if(error){
         return res.status(400).json({status:"error", message:error.detail})
       }
-      console.log(response);
       pool.query('SELECT id, created_at FROM articles WHERE created_at=($1)',[createdOn],
       (err, data)=>{
         if(err){
@@ -52,7 +51,59 @@ const createArticle = (req, res, next)=>{
     })
 }
 
+const editArticle = (req,res, next)=>{
+  if (!req.body){
+    return res.status(400).json({status:"error"})
+  }
+  if(!req.params.articleId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const id = req.params.articleId
+  const {title, article} = req.body
+
+  if(!title || !article){
+    return res.status(400).json({status:"error", message:"both article and title should be provided"})
+  }
+  //check if the employee is the owner of the article and if article exists
+  pool.query('SELECT owner FROM articles WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"article does not exists"})
+      }
+
+      const owner = response.rows[0].owner
+      const userId = req.decoded.id
+      if(owner != userId){
+        return res.status(403).json({status:"error", message:'Unauthorised'})
+      }
+    }
+  )
+
+  pool.query('UPDATE articles SET title=$1, article=$2 WHERE id=$3', [title, article, id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:error.detail})
+      }
+      res.status(200).json({
+        status:"success",
+        data:{
+          message:"Article successfully updated",
+          title:title,
+          article:article
+        }
+      })
+    }
+)
+
+
+
+
+}
+
+
+
 
 module.exports = {
-  createArticle
+  createArticle,
+  editArticle
 }
