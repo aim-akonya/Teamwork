@@ -8,4 +8,7 @@ router.post('/', conn.createArticle)
 router.patch('/:articleId', conn.editArticle)
 router.delete('/:articleId', conn.deleteArticle)
 
+//comments
+router.post('/:articleId/comment', conn.comment)
+
 module.exports=router
