@@ -120,7 +120,57 @@ const deleteGif = (req, res, next)=>{
     })
 }
 
+
+//comment gif
+const comment = (req, res, next)=>{
+
+  if (!req.body){
+    return res.status(400).json({status:"error"})
+  }
+
+  if(!req.params.gifId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+
+  const comment = req.body.comment
+  const id = req.params.gifId;
+  const currentUser = req.decoded.id;
+  let title = '';
+  const createdOn = new Date();
+
+  //getting the article being commented
+  pool.query('SELECT title FROM gif WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+
+        return res.status(400).json({status:"error", message:"gif does not exists"})
+      }
+      title = response.rows[0].title
+    })
+
+    //adding comment
+    pool.query('INSERT INTO gifComments(gif, comment, owner, created_at) VALUES($1, $2, $3, $4)',
+    [id, comment, currentUser, createdOn],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"failed to insert"})
+      }
+      res.status(201).json({
+        status:"Success",
+        data:{
+          message:"Comment successfully created",
+          createdOn: createdOn.toLocaleString(),
+          gifTitle: title,
+          comment: comment
+        }
+      })
+    }
+  )
+
+}
+
 module.exports={
   createGif,
-  deleteGif
+  deleteGif,
+  comment
 }

@@ -209,3 +209,28 @@ describe('POST /articles/:articleId/comment', ()=>{
 
   })
 })
+
+
+
+//employee can comment on other peoples gifs
+//use the default gif for testing
+describe('POST /articles/:gifId/comment', ()=>{
+  it('should allow employees to comment on other peoples articles', done=>{
+    request(app)
+    .post(`/api/v1/gifs/${1}/comment`)
+    .set('authorization', userToken)
+    .send({comment:"nice post friend"})
+    .end( (err, res)=>{
+      if (err) done(err)
+      expect(res.status).to.equal(201);
+      expect(res.body.status).to.equal('Success')
+      expect(res.body.data).to.be.a('object');
+      expect(res.body.data.message).to.equal('Comment successfully created');
+      expect(res.body.data.createdOn).to.be.a('string');
+      expect(res.body.data.gifTitle).to.be.a('string');
+      expect(res.body.data.comment).to.be.a('string');
+      done();
+    })
+
+  })
+})
