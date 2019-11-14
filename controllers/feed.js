@@ -23,7 +23,6 @@ const getFeed = (req, res, next)=>{
           console.log('here')
           return re.status(400).json({status:"error"})
         }
-        console.log(result.rows)
         res.status(200).json({
           status:"Success",
           data:result.rows

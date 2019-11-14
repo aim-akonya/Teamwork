@@ -251,3 +251,20 @@ describe('GET /feed', ()=>{
       })
   })
 })
+
+//view a specific article
+describe('GET /article/articleId', ()=>{
+  it('should get a specifi article and resturn a response with a status code of 200', done=>{
+    request(app)
+    .get(`/api/v1/articles/${1}`)
+    .set('authorization', userToken)
+    .expect('Content-Type', /json/)
+    .end( (err, res)=>{
+      if (err) done(err)
+      expect(res.status).to.equal(200);
+      expect(res.body.data).to.be.a('object');
+      expect(res.body.data.comments).to.be.a('array');
+      done();
+    })
+  })
+})
