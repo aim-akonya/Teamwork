@@ -11,4 +11,7 @@ router.delete('/:articleId', conn.deleteArticle)
 //comments
 router.post('/:articleId/comment', conn.comment)
 
+//get article
+router.get('/:articleId', conn.getArticle)
+
 module.exports=router
