@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/', conn.createArticle)
 router.patch('/:articleId', conn.editArticle)
+router.delete('/:articleId', conn.deleteArticle)
 
 module.exports=router

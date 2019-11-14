@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 chai.should();
 
 const userToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6MSwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTU3MzE1NDI2Mn0.X26CpLM7mp9hclz1YS1yfZ62l70PL7ejocI45brhZLU"
+let articleId = ''
 
 describe('GET /', ()=>{
   it('responds with json', done=>{
@@ -123,6 +124,7 @@ describe ('POST /articles', ()=>{
         expect(res.body.data.articleId).to.be.a('number');
         expect(res.body.data.createdOn).to.be.a('string');
         expect(res.body.data.title).to.be.a('string');
+        articleId = res.body.data.articleId ;
         done();
       })
   })
@@ -132,7 +134,7 @@ describe ('POST /articles', ()=>{
 describe('PATCH /articles/:articleId', ()=>{
   it('should respond with a status code of 200 and edit the article with the new data', (done)=>{
     request(app)
-      .patch(`/api/v1/articles/${26}`)
+      .patch(`/api/v1/articles/${articleId}`)
       .set('authorization', userToken)
       .send({title: 'The fall of the race', article:"It indeed is an interesting article"})
       .expect('Content-Type', /json/)
@@ -150,5 +152,17 @@ describe('PATCH /articles/:articleId', ()=>{
 
 //employee can delete an article
 describe('DELETE /articles/:articleId', ()=>{
-
+  it('should allow user to delete their article and respond with status code of 200', (done)=>{
+    request(app)
+      .delete(`/api/v1/articles/${articleId}`)
+      .set('authorization', userToken)
+      .end( (err, res)=>{
+        if (err) done(err)
+        expect(res.status).to.equal(203);
+        expect(res.body.status).to.equal('Success')
+        expect(res.body.data).to.be.a('object');
+        expect(res.body.data.message).to.equal('Article successfully deleted');
+        done();
+      })
+  })
 })

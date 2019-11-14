@@ -51,6 +51,7 @@ const createArticle = (req, res, next)=>{
     })
 }
 
+//edit article
 const editArticle = (req,res, next)=>{
   if (!req.body){
     return res.status(400).json({status:"error"})
@@ -60,17 +61,14 @@ const editArticle = (req,res, next)=>{
   }
   const id = req.params.articleId
   const {title, article} = req.body
-
   if(!title || !article){
     return res.status(400).json({status:"error", message:"both article and title should be provided"})
   }
-  //check if the employee is the owner of the article and if article exists
   pool.query('SELECT owner FROM articles WHERE id=$1',[id],
     (error, response)=>{
       if(error){
         return res.status(400).json({status:"error", message:"article does not exists"})
       }
-
       const owner = response.rows[0].owner
       const userId = req.decoded.id
       if(owner != userId){
@@ -78,7 +76,6 @@ const editArticle = (req,res, next)=>{
       }
     }
   )
-
   pool.query('UPDATE articles SET title=$1, article=$2 WHERE id=$3', [title, article, id],
     (error, response)=>{
       if(error){
@@ -93,10 +90,43 @@ const editArticle = (req,res, next)=>{
         }
       })
     }
-)
+)}
 
+//delete article
+const deleteArticle =(req, res, next)=>{
+  if(!req.params.articleId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const id = req.params.articleId
 
+  //check if article exists and the user is the creator
+  pool.query('SELECT owner FROM articles WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"article does not exists"})
+      }
+      const owner = response.rows[0].owner
+      const userId = req.decoded.id
+      if(owner != userId){
+        return res.status(403).json({status:"error", message:'Unauthorised'})
+      }
+    })
 
+    //delete the article
+    pool.query('DELETE FROM articles WHERE id=$1', [id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"article does not exists"})
+      }
+
+      res.status(203).json({
+        status:"Success",
+        data:{
+          message:"Article successfully deleted",
+        }
+      })
+    }
+  )
 
 }
 
@@ -105,5 +135,6 @@ const editArticle = (req,res, next)=>{
 
 module.exports = {
   createArticle,
-  editArticle
+  editArticle,
+  deleteArticle
 }
