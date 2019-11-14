@@ -37,5 +37,8 @@ app.use('/api/v1/gifs', require('./routes/api/gif'))
 //articles
 app.use('/api/v1/articles', require('./routes/api/articles'))
 
+//feed
+app.use('/api/v1/feed', require('./routes/api/feed'))
+
 
 module.exports = app;
