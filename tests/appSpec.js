@@ -15,6 +15,7 @@ chai.should();
 
 const userToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6MSwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTU3MzE1NDI2Mn0.X26CpLM7mp9hclz1YS1yfZ62l70PL7ejocI45brhZLU"
 let articleId = ''
+let gifId=''
 
 describe('GET /', ()=>{
   it('responds with json', done=>{
@@ -100,6 +101,7 @@ describe ("POST /gifs", ()=>{
           expect(res.body.data.title).to.be.a("string");
           expect(res.body.data.imageUrl).to.be.a("string");
           expect(res.body.data.gifId).to.be.a("number");
+          gifId = res.body.data.gifId
           done();
       })
   }).timeout(15000)
@@ -162,6 +164,23 @@ describe('DELETE /articles/:articleId', ()=>{
         expect(res.body.status).to.equal('Success')
         expect(res.body.data).to.be.a('object');
         expect(res.body.data.message).to.equal('Article successfully deleted');
+        done();
+      })
+  })
+})
+
+//employees can delete their gifs
+describe('DELETE /gifs/:gifId', ()=>{
+  it('should allow user to delete their article and respond with status code of 200', (done)=>{
+    request(app)
+      .delete(`/api/v1/gifs/${gifId}`)
+      .set('authorization', userToken)
+      .end( (err, res)=>{
+        if (err) done(err)
+        expect(res.status).to.equal(203);
+        expect(res.body.status).to.equal('Success')
+        expect(res.body.data).to.be.a('object');
+        expect(res.body.data.message).to.equal('gif post successfully deleted');
         done();
       })
   })
