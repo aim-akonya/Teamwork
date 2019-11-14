@@ -127,7 +127,6 @@ const deleteArticle =(req, res, next)=>{
       })
     }
   )
-
 }
 
 

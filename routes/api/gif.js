@@ -6,5 +6,6 @@ const router = express.Router();
 
 //employees can post gif
 router.post('/',  conn.createGif)
+router.delete('/:gifId', conn.deleteGif)
 
 module.exports = router
