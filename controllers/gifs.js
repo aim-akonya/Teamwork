@@ -17,7 +17,6 @@ const pool = new Pool({
 });
 
 const createGif = (req, res, next)=>{
-
       if (!req.body){
         return res.status(400).json({status:"error"})
       }
@@ -86,95 +85,42 @@ const createGif = (req, res, next)=>{
         })
 }
 
+//delete gif
+const deleteGif = (req, res, next)=>{
+  if(!req.params.gifId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const id = req.params.gifId
+  //check if gif exists and the user is the creator
+  pool.query('SELECT owner FROM gif WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"gif does not exists"})
+      }
+      const owner = response.rows[0].owner
+      const userId = req.decoded.id
+      if(owner != userId){
+        return res.status(403).json({status:"error", message:'Unauthorised'})
+      }
+    })
 
-/*
+    //delete the gif if it exists
+    pool.query('DELETE FROM gif WHERE id=$1', [id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"gif does not exists"})
+      }
 
-
-pool.query(
-  'INSERT INTO gif(image, title, owner)\
-  VALUES($1, $2, $3)',
-  [file.url, title, userId],
-  (error, results)=>{
-    if(error){
-      return res.status(400).json({status:"error", message:error.detail})
-    }
-    console.log(results)
-    return res.status(400).json({status:"done"})
-  )
-
-
-
-
-
-
-
-   //upload image file to cloudinary
-
-   .then((file)=>{
-     //del the uploaded file from filesystem
-     fs.unlink(`./${filename}`, (err)=>{
-       if(err){
-         console.log(err)
-       }
-     });
-   })
-
-
-   pool.query(
-     'INSERT INTO gif(image, title, owner)\
-     VALUES($1, $2, $3)',
-     ['sasa', title, userId],
-     (error, results)=>{
-       if(error){
-         return res.status(400).json({status:"error", message:error.detail})
-         //throw error
-       }
-       else{
-         res.status(201).json({
-           status:"success",
-           data:{
-             gifId:4,
-             message:"GIF successfully posted",
-             created_on: 'time',
-             title: title,
-             imageURL: 'some url'
-           }
-         })
-
-       }
-     }
-   )
-
-
-}
-
-pool.query(
-  'INSERT INTO gif(image, title, owner)\
-  VALUES($1, $2, $3)',
-  [file.url, title, userId],
-  (error, results)=>{
-    if(error){
-      //return res.status(400).json({status:"error", message:error.detail})
-      throw error
-    }
-    else{
-      res.status(201).json({
-        status:"success",
+      res.status(203).json({
+        status:"Success",
         data:{
-          gifId:4,
-          message:"GIF successfully posted",
-          created_on: 'time',
-          title: title,
-          imageURL: file.url
+          message:"gif post successfully deleted",
         }
       })
-
-    }
-  }
-)
-*/
-
+    })
+}
 
 module.exports={
-  createGif
+  createGif,
+  deleteGif
 }
