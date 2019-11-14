@@ -185,3 +185,27 @@ describe('DELETE /gifs/:gifId', ()=>{
       })
   })
 })
+
+//employee can comment on other peoples articles
+//use the default article for testing
+describe('POST /articles/:articleId/comment', ()=>{
+  it('should allow employees to comment on other peoples articles', done=>{
+    request(app)
+    .post(`/api/v1/articles/${1}/comment`)
+    .set('authorization', userToken)
+    .send({comment:"Good work friend"})
+    .end( (err, res)=>{
+      if (err) done(err)
+      expect(res.status).to.equal(201);
+      expect(res.body.status).to.equal('Success')
+      expect(res.body.data).to.be.a('object');
+      expect(res.body.data.message).to.equal('Comment successfully created');
+      expect(res.body.data.createdOn).to.be.a('string');
+      expect(res.body.data.articleTitle).to.be.a('string');
+      expect(res.body.data.article).to.be.a('string');
+      expect(res.body.data.comment).to.be.a('string');
+      done();
+    })
+
+  })
+})

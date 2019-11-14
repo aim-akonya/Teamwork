@@ -129,11 +129,60 @@ const deleteArticle =(req, res, next)=>{
   )
 }
 
+//add comment to an article
+const comment = (req, res, next)=>{
+  if (!req.body){
+    return res.status(400).json({status:"error"})
+  }
+
+  if(!req.params.articleId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const comment = req.body.comment
+  const id = req.params.articleId;
+  const currentUser = req.decoded.id;
+  let article = '';
+  let title = '';
+  const createdOn = new Date();
+
+  //getting the article being commented
+  pool.query('SELECT title, article FROM articles WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"article does not exists"})
+      }
+      title = response.rows[0].title
+      article = response.rows[0].article
+    })
+
+    //adding comment
+    pool.query('INSERT INTO articleComments(article, comment, owner, created_at) VALUES($1, $2, $3, $4)',
+    [id, comment, currentUser, createdOn],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"failed to insert"})
+      }
+      res.status(201).json({
+        status:"Success",
+        data:{
+          message:"Comment successfully created",
+          createdOn: createdOn.toLocaleString(),
+          articleTitle: title,
+          article: article,
+          comment: comment
+        }
+      })
+    }
+  )
+
+}
+
 
 
 
 module.exports = {
   createArticle,
   editArticle,
-  deleteArticle
+  deleteArticle,
+  comment
 }
