@@ -8,4 +8,6 @@ const router = express.Router();
 router.post('/',  conn.createGif)
 router.delete('/:gifId', conn.deleteGif)
 
+router.post('/:gifId/comment', conn.comment)
+
 module.exports = router
