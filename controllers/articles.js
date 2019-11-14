@@ -214,8 +214,6 @@ const getArticle=(req, res, next)=>{
       })
     }
   )
-
-
 }
 
 
