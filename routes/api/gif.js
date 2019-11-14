@@ -10,4 +10,6 @@ router.delete('/:gifId', conn.deleteGif)
 
 router.post('/:gifId/comment', conn.comment)
 
+router.get('/:gifId', conn.getGif)
+
 module.exports = router

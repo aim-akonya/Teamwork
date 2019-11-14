@@ -121,6 +121,7 @@ const deleteGif = (req, res, next)=>{
 }
 
 
+
 //comment gif
 const comment = (req, res, next)=>{
 
@@ -166,11 +167,53 @@ const comment = (req, res, next)=>{
       })
     }
   )
-
 }
+
+
+//get gif
+const getGif=(req, res, next)=>{
+  if(!req.params.gifId){
+    return res.status(400).json({status:"error", message:"missing params"})
+  }
+  const id = req.params.gifId;
+  let title=''
+  let url=''
+  let createdOn = ''
+
+  pool.query('SELECT * FROM gif WHERE id=$1',[id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error", message:"gif does not exists"})
+      }
+      title = response.rows[0].title
+      url = response.rows[0].image
+      createdOn = response.rows[0].created_at
+    })
+
+    //getting the comments related to the article
+    pool.query('SELECT id AS commentId, comment, owner AS authorId FROM gifComments WHERE gif=$1', [id],
+    (error, response)=>{
+      if(error){
+        return res.status(400).json({status:"error"})
+      }
+      res.status(200).json({
+        status:"Success",
+        data:{
+          id:id,
+          createdOn: createdOn,
+          title: title,
+          url: url,
+          comments: response.rows
+        }
+      })
+    }
+  )
+}
+
 
 module.exports={
   createGif,
   deleteGif,
-  comment
+  comment,
+  getGif
 }
