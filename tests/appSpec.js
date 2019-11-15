@@ -42,22 +42,25 @@ describe('POST /auth/create-user', ()=>{
           console.error(err)
           done(err)
         }
+
+        request(app)
+          .post('/api/v1/auth/create-user')
+          .send(user.testUser1) //sending test user data to be added to db
+          .expect("Content-Type", /json/)
+          .then( res=> {
+            expect(res.status).to.equal(201);
+            expect(res.body.status).to.equal("success");
+            expect(res.body.data.message).to.equal("user account successfully created");
+            expect(res.body.data.token).to.be.a("string");
+            expect(res.body.data.userId).to.be.a("number");
+            done();
+          })
+          .catch(err => {
+            done(err)
+          });
+
       })
-    request(app)
-      .post('/api/v1/auth/create-user')
-      .send(user.testUser1) //sending test user data to be added to db
-      .expect("Content-Type", /json/)
-      .then( res=> {
-        expect(res.status).to.equal(201);
-        expect(res.body.status).to.equal("success");
-        expect(res.body.data.message).to.equal("user account successfully created");
-        expect(res.body.data.token).to.be.a("string");
-        expect(res.body.data.userId).to.be.a("number");
-        done();
-      })
-      .catch(err => {
-        done(err)
-      });
+
   });
 });
 
