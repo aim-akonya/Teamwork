@@ -13,7 +13,8 @@ const config = require('../config');
 chai.use(chaiHttp);
 chai.should();
 
-const userToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6MSwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTU3MzE1NDI2Mn0.X26CpLM7mp9hclz1YS1yfZ62l70PL7ejocI45brhZLU"
+const userToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFpbS5ha29ueWE4QGdtYWlsLmNvbSIsImlkIjoxMzEsImlzX2FkbWluIjpudWxsLCJpYXQiOjE1NzM4MjA0NTh9.-zk2Ltaxs_E59Evjjh7AA6Hw1UDNVJxuffrPfmrBPP4'
+//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWFpbC5jb20iLCJpZCI6MSwiaXNfYWRtaW4iOnRydWUsImlhdCI6MTU3MzE1NDI2Mn0.X26CpLM7mp9hclz1YS1yfZ62l70PL7ejocI45brhZLU"
 let articleId = ''
 let gifId=''
 
