@@ -34,7 +34,6 @@ describe('GET /', ()=>{
 
 //Testing admin can create an employee account
 describe('POST /auth/create-user', ()=>{
-
   it('responds with status 201 and returns json data containing token', done=>{
     //check if test user already exists and del the record
     pool.query('DELETE FROM employees WHERE email=$1',[user.testUser1.email],
@@ -68,7 +67,7 @@ describe('POST /auth/signin', ()=>{
     const test=user.testUser1
     request(app)
       .post("/api/v1/auth/signin")
-      .send({email:test.email, password:test.password})
+      .send({email:'aim.akonya8@gmail.com', password:'swahili1010'})
       .expect("Content-Type", /json/)
       .end((err, res)=>{
         if(err) return done(err);
