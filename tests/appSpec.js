@@ -51,9 +51,7 @@ describe('POST /auth/create-user', ()=>{
         .catch(err => {
           done(err)
         });
-
-
-  });
+  }).timeout(15000)
 });
 
 //test admin/employee can sign in
