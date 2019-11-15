@@ -1,5 +1,6 @@
 
 const imageVal = require('./image');
+const uuid = require('uuid');
 //employee account creation and signin data
 exports.defaultUser = {
   firstname:'mike',
@@ -29,7 +30,7 @@ exports.testUser2 = {
   firstname:'Jane',
   lastname:'Janice',
   gender:'Female',
-  email:'jane2@mail.com',
+  email:`${uuid.v4()}@mail.com`,
   password: 'jane123',
   jobrole:'developer',
   department:'development',
