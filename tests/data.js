@@ -25,6 +25,19 @@ exports.testUser1 = {
   is_admin: false
 }
 
+exports.testUser2 = {
+  firstname:'Jane',
+  lastname:'Janice',
+  gender:'Female',
+  email:'jane2@mail.com',
+  password: 'jane123',
+  jobrole:'developer',
+  department:'development',
+  address:'123 jw street',
+  is_admin: false
+}
+
+
 //test image object
 exports.image={
   image:imageVal.encodedImage,

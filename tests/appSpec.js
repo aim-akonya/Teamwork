@@ -36,7 +36,7 @@ describe('GET /', ()=>{
 describe('POST /auth/create-user', ()=>{
   it('responds with status 201 and returns json data containing token', done=>{
     //check if test user already exists and del the record
-    pool.query('DELETE FROM employees WHERE email=$1',[user.testUser1.email],
+    pool.query('DELETE FROM employees WHERE email=$1',[user.testUser2.email],
       (err, val)=>{
         if (err){
           console.error(err)
@@ -45,7 +45,7 @@ describe('POST /auth/create-user', ()=>{
 
         request(app)
           .post('/api/v1/auth/create-user')
-          .send(user.testUser1) //sending test user data to be added to db
+          .send(user.testUser2) //sending test user data to be added to db
           .expect("Content-Type", /json/)
           .then( res=> {
             expect(res.status).to.equal(201);
