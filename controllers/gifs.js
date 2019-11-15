@@ -185,6 +185,9 @@ const getGif=(req, res, next)=>{
       if(error){
         return res.status(400).json({status:"error", message:"gif does not exists"})
       }
+      if(response.rows.length === 0){
+        return res.status(400).json({status:"error", message:"Article does not exists"})
+      }
       title = response.rows[0].title
       url = response.rows[0].image
       createdOn = response.rows[0].created_at

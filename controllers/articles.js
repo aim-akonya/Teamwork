@@ -190,7 +190,10 @@ const getArticle=(req, res, next)=>{
   pool.query('SELECT * FROM articles WHERE id=$1',[id],
     (error, response)=>{
       if(error){
-        return res.status(400).json({status:"error", message:"article does not exists"})
+        return res.status(400).json({status:"error", message:"Article does not exists"})
+      }
+      if(response.rows.length === 0){
+        return res.status(400).json({status:"error", message:"Article does not exists"})
       }
       title = response.rows[0].title
       article = response.rows[0].article
