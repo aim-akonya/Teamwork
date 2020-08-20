@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/aim-akonya/Teamwork#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cloudinary": "^1.16.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
